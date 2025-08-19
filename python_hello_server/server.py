@@ -17,7 +17,7 @@ def send_response(response_id, result):
         "id": response_id,
         "result": result
     }
-    message = json.dumps(response)
+    message = json.dumps(response, ensure_ascii=False)
     sys.stdout.write(f"{message}\n")
     sys.stdout.flush()
     logging.info(f"응답 전송: {message}")
@@ -32,7 +32,7 @@ def send_error(response_id, code, message):
             "message": message
         }
     }
-    message = json.dumps(response)
+    message = json.dumps(response, ensure_ascii=False)
     sys.stdout.write(f"{message}\n")
     sys.stdout.flush()
     logging.info(f"에러 전송: {message}")
