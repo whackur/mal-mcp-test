@@ -32,7 +32,7 @@ def read_responses(process):
 
 if __name__ == "__main__":
     # MCP 서버 프로세스를 시작합니다.
-    server_command = [sys.executable, 'python_hello_server/server.py']
+    server_command = [sys.executable, 'python_hello_server/hello_server.py']
     server_process = subprocess.Popen(
         server_command,
         stdin=subprocess.PIPE,
