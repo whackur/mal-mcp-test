@@ -4,11 +4,14 @@ from pathlib import Path
 import os
 from mcp.server.fastmcp import FastMCP
 
+# 로그 디렉토리 생성
+os.makedirs("logs", exist_ok=True)
+
 # 파일 기반 로깅 설정
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(levelname)s - %(message)s",
-    filename="download_server.log",
+    filename="logs/download_server.log",
     filemode="w",
     encoding="utf-8",
 )
