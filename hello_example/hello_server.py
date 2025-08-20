@@ -3,39 +3,39 @@ import json
 import logging
 
 # 표준 입출력 인코딩을 UTF-8로 강제합니다.
-sys.stdout.reconfigure(encoding='utf-8')
-sys.stderr.reconfigure(encoding='utf-8')
-sys.stdin.reconfigure(encoding='utf-8')
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+sys.stdin.reconfigure(encoding="utf-8")
 
 # 로깅을 표준 에러(stderr)로 설정합니다.
-logging.basicConfig(stream=sys.stderr, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    stream=sys.stderr,
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
+
 
 def send_response(response_id, result):
     """JSON-RPC 응답을 표준 출력(stdout)으로 보냅니다."""
-    response = {
-        "jsonrpc": "2.0",
-        "id": response_id,
-        "result": result
-    }
+    response = {"jsonrpc": "2.0", "id": response_id, "result": result}
     message = json.dumps(response, ensure_ascii=False)
     sys.stdout.write(f"{message}\n")
     sys.stdout.flush()
     logging.info(f"응답 전송: {message}")
+
 
 def send_error(response_id, code, message):
     """JSON-RPC 에러 응답을 표준 출력(stdout)으로 보냅니다."""
     response = {
         "jsonrpc": "2.0",
         "id": response_id,
-        "error": {
-            "code": code,
-            "message": message
-        }
+        "error": {"code": code, "message": message},
     }
     message = json.dumps(response, ensure_ascii=False)
     sys.stdout.write(f"{message}\n")
     sys.stdout.flush()
     logging.info(f"에러 전송: {message}")
+
 
 def handle_list_tools():
     """listTools 요청을 처리합니다."""
@@ -47,16 +47,14 @@ def handle_list_tools():
                 "inputSchema": {
                     "type": "object",
                     "properties": {
-                        "name": {
-                            "type": "string",
-                            "description": "인사할 이름."
-                        }
+                        "name": {"type": "string", "description": "인사할 이름."}
                     },
-                    "required": ["name"]
-                }
+                    "required": ["name"],
+                },
             }
         ]
     }
+
 
 def handle_call_tool(params):
     """callTool 요청을 처리합니다."""
@@ -74,10 +72,11 @@ def handle_call_tool(params):
         "content": [
             {
                 "type": "text",
-                "text": f"안녕하세요, {user_name}님! Python MCP 서버로부터의 인사입니다."
+                "text": f"안녕하세요, {user_name}님! Python MCP 서버로부터의 인사입니다.",
             }
         ]
     }
+
 
 def main_loop():
     """서버의 메인 이벤트 루프입니다."""
@@ -98,11 +97,8 @@ def main_loop():
                 client_protocol_version = params.get("protocolVersion")
                 result = {
                     "protocolVersion": client_protocol_version,
-                    "serverInfo": {
-                        "name": "python-hello-server",
-                        "version": "0.1.0"
-                    },
-                    "capabilities": { "resources": {}, "tools": {} }
+                    "serverInfo": {"name": "python-hello-server", "version": "0.1.0"},
+                    "capabilities": {"resources": {}, "tools": {}},
                 }
                 send_response(request_id, result)
             elif method == "tools/list":
