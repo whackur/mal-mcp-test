@@ -1,18 +1,13 @@
-# MCP Hello sample
-- request with mcp sdk
+# MCP Hello Library Example
+- This is an example using the `mcp[cli]` SDK.
 
-# MCP Setting Code Example
-```json
-{
-  "mcpServers": {
-    "python-hello-server": {
-      "command": "python",
-      "args": [
-        "c:/Users/......./hello_example/hello_server.py"
-      ],
-      "env": {}
-    }
-  }
-}
+# Run Script
+```shell
+# Activate the virtual environment first
+# On Windows (Powershell):
+# .\.venv\Scripts\Activate.ps1
+# On macOS/Linux:
+# source ./.venv/bin/activate
 
+python ./hello_lib_example/hello_lib_client.py
 ```
