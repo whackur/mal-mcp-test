@@ -3,14 +3,14 @@ import sys
 import subprocess
 import threading
 
-# Force stdout/stderr/stdin to be UTF-8
+# stdout/stderr/stdin을 UTF-8로 강제합니다.
 sys.stdout.reconfigure(encoding="utf-8")
 sys.stderr.reconfigure(encoding="utf-8")
 sys.stdin.reconfigure(encoding="utf-8")
 
 
 def send_request(process, method, params, request_id):
-    """Sends a JSON-RPC request to the specified process."""
+    """지정된 프로세스에 JSON-RPC 요청을 보냅니다."""
     request = {"jsonrpc": "2.0", "id": request_id, "method": method, "params": params}
     message = json.dumps(request, ensure_ascii=False) + "\n"
     process.stdin.write(message.encode("utf-8"))
@@ -19,7 +19,7 @@ def send_request(process, method, params, request_id):
 
 
 def read_responses(process):
-    """Reads and prints responses from the server."""
+    """서버로부터의 응답을 읽고 출력합니다."""
     for line in iter(process.stdout.readline, b""):
         print(f"Server -> Client: {line.decode('utf-8').strip()}", file=sys.stderr)
 
@@ -28,7 +28,7 @@ def read_responses(process):
 
 
 if __name__ == "__main__":
-    # Start the MCP server process
+    # MCP 서버 프로세스를 시작합니다.
     server_command = [sys.executable, "hello_example/hello_server.py"]
     server_process = subprocess.Popen(
         server_command,
@@ -37,20 +37,20 @@ if __name__ == "__main__":
         stderr=subprocess.PIPE,
     )
 
-    # Start a separate thread to read server responses
+    # 서버 응답을 읽기 위해 별도의 스레드를 시작합니다.
     response_thread = threading.Thread(target=read_responses, args=(server_process,))
     response_thread.daemon = True
     response_thread.start()
 
-    # Send requests to the server
+    # 서버에 요청을 보냅니다.
     try:
-        # 1. Initialize request
+        # 1. 초기화 요청
         send_request(server_process, "initialize", {"protocolVersion": "2.0.0"}, 1)
 
-        # 2. tools/list request
+        # 2. tools/list 요청
         send_request(server_process, "tools/list", {}, 2)
 
-        # 3. tools/call request
+        # 3. tools/call 요청
         send_request(
             server_process,
             "tools/call",
@@ -58,11 +58,11 @@ if __name__ == "__main__":
             3,
         )
 
-        # 4. Initialized notification
+        # 4. 초기화 완료 알림
         send_request(server_process, "notifications/initialized", {}, 4)
 
     finally:
-        # Wait for the server process to terminate
+        # 서버 프로세스가 종료될 때까지 기다립니다.
         server_process.stdin.close()
         server_process.wait(timeout=5)
         response_thread.join(timeout=2)

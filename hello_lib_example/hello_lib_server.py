@@ -2,16 +2,16 @@ import logging
 import sys
 from mcp.server.fastmcp import FastMCP
 
-# Configure file-based logging
+# 파일 기반 로깅 설정
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(levelname)s - %(message)s",
     filename="hello_lib_server.log",
     filemode="w",
-    encoding="utf-8",  # Explicitly set encoding
+    encoding="utf-8",  # 명시적으로 인코딩 설정
 )
 
-# Add console (stderr) logging
+# 콘솔(stderr) 로깅 추가
 console_handler = logging.StreamHandler(sys.stderr)
 console_handler.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
@@ -21,7 +21,7 @@ logging.getLogger().addHandler(console_handler)
 logging.info("Server script started")
 
 try:
-    # Create a FastMCP server instance
+    # FastMCP 서버 인스턴스 생성
     mcp = FastMCP("python-hello-lib-server")
     logging.info("FastMCP instance created successfully")
 
@@ -30,7 +30,7 @@ try:
         description="A tool that returns a simple greeting from the Python MCP library.",
     )
     def hello_python_lib(name: str) -> str:
-        """Returns a simple greeting."""
+        """간단한 인사말을 반환합니다."""
         logging.info(f"'hello_python_lib' tool called with name={name}")
         result = f"Hello, {name}! This is a greeting from the Python MCP library."
         logging.info(f"Returning result: {result}")
@@ -38,7 +38,7 @@ try:
 
     if __name__ == "__main__":
         logging.info("Server ready to run (mcp.run())")
-        # Run the server via stdio
+        # stdio를 통해 서버 실행
         mcp.run()
         logging.info("Server execution finished")
 

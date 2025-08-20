@@ -2,12 +2,12 @@ import sys
 import json
 import logging
 
-# Force stdout/stderr/stdin to be UTF-8
+# stdout/stderr/stdin을 UTF-8로 강제합니다.
 sys.stdout.reconfigure(encoding="utf-8")
 sys.stderr.reconfigure(encoding="utf-8")
 sys.stdin.reconfigure(encoding="utf-8")
 
-# Configure logging to stderr
+# stderr에 로깅을 구성합니다.
 logging.basicConfig(
     stream=sys.stderr,
     level=logging.INFO,
@@ -16,7 +16,7 @@ logging.basicConfig(
 
 
 def send_response(response_id, result):
-    """Sends a JSON-RPC response to stdout."""
+    """stdout으로 JSON-RPC 응답을 보냅니다."""
     response = {"jsonrpc": "2.0", "id": response_id, "result": result}
     message = json.dumps(response, ensure_ascii=False)
     sys.stdout.write(f"{message}\n")
@@ -25,7 +25,7 @@ def send_response(response_id, result):
 
 
 def send_error(response_id, code, message):
-    """Sends a JSON-RPC error response to stdout."""
+    """stdout으로 JSON-RPC 오류 응답을 보냅니다."""
     response = {
         "jsonrpc": "2.0",
         "id": response_id,
@@ -38,7 +38,7 @@ def send_error(response_id, code, message):
 
 
 def handle_list_tools():
-    """Handles the listTools request."""
+    """listTools 요청을 처리합니다."""
     return {
         "tools": [
             {
@@ -57,7 +57,7 @@ def handle_list_tools():
 
 
 def handle_call_tool(params):
-    """Handles the callTool request."""
+    """callTool 요청을 처리합니다."""
     tool_name = params.get("name")
     if tool_name != "hello_python":
         raise ValueError(f"Unknown tool: {tool_name}")
@@ -79,7 +79,7 @@ def handle_call_tool(params):
 
 
 def main_loop():
-    """The main event loop for the server."""
+    """서버의 메인 이벤트 루프입니다."""
     logging.info("Python MCP server started. Listening on stdin.")
     for line in sys.stdin:
         try:
@@ -108,10 +108,10 @@ def main_loop():
                 result = handle_call_tool(params)
                 send_response(request_id, result)
             elif method in ["resources/list", "resources/templates/list"]:
-                # This server does not provide resources, so return an empty list.
+                # 이 서버는 리소스를 제공하지 않으므로 빈 목록을 반환합니다.
                 send_response(request_id, {"resources": []})
             elif method == "notifications/initialized":
-                # Initialized notification, no response needed.
+                # 초기화 완료 알림으로, 응답이 필요 없습니다.
                 logging.info("Initialized notification received, ignoring.")
                 continue
             else:
