@@ -1,2 +1,4 @@
 black
 mcp[cli]
+requests
+beautifulsoup4

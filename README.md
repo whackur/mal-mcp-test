@@ -11,6 +11,7 @@
 ├── hello_example/       # MCP 라이브러리 없이 순수 Python으로 구현한 예제
 ├── hello_lib_example/   # `mcp` 라이브러리를 사용하여 구현한 예제
 ├── show_local_download/ # 로컬 다운로드 폴더 파일 목록 조회 예제
+├── link-scanner/        # 웹사이트의 모든 하이퍼링크를 스캔하는 예제
 ├── .gitignore
 ├── README.md            # 현재 파일
 └── requirements.txt     # Python 의존성 목록
@@ -60,6 +61,8 @@ pip install -r requirements.txt
   - `mcp` 라이브러리를 사용하여 쉽고 간결하게 MCP 서버/클라이언트를 구현하는 방법을 보여줍니다.
 - **[로컬 다운로드 파일 목록 조회 예제](./show_local_download/README.md)**
   - 사용자의 로컬 다운로드 폴더에 접근하여 파일 목록을 반환하는 실용적인 예제입니다.
+- **[링크 스캐너 예제](./link-scanner/README.md)**
+  - 특정 웹사이트의 모든 내부 하이퍼링크를 재귀적으로 스캔하는 예제입니다.
 
 ## MCP 서버 설정 (for Cline)
 
@@ -93,6 +96,13 @@ Cline과 같은 MCP 클라이언트에서 이 프로젝트의 서버들을 사�
       "autoApprove": [
         "list_download_files"
       ]
+    },
+    "link-scanner": {
+      "command": "c:/..../mal-mcp-test/.venv/Scripts/python.exe",
+      "args": [
+        "c:/..../mal-mcp-test/link-scanner/scanner_server.py"
+      ],
+      "env": {}
     }
   }
 }
