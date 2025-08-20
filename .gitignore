@@ -2,3 +2,4 @@ logs/*.log
 *.log
 .venv
 mcp_sample.json
+.secret
